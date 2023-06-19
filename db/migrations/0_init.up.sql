@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS zoll_data(
     id SERIAL PRIMARY KEY,
-    username VARCHAR UNIQUE NOT NULL,
-    password_hash VARCHAR NOT NULL
+    name VARCHAR NOT NULL,
+    bpm INT,
+    time timestamp
 );
-CREATE EXTENSION pgcrypto;

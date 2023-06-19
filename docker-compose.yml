@@ -1,27 +1,38 @@
-# TODO: create docker-compose file
-
 version: '3.7'
 services:
   api:
     depends_on:
-    - postgres
+      - postgres
     build: .
     ports:
-    - "8080:8080"
+      - "8080:8080"
+    environment:
+      - DATA_DB_HOST=postgres
+      - DATA_DB_PORT=5432
+      - DATA_DB_SERVICE_PASS=123PassID
+      - HMAC_SIGNING_KEY=123PassID
+    networks:
+      - user-network
   postgres:
     image: postgres:14.5
     restart: always
     environment:
-    - POSTGRES_DB=user_db
-    - POSTGRES_USER=service
-    - POSTGRES_PASSWORD=${USER_DB_SERVICE_PASS}
+      - POSTGRES_DB=data_db
+      - POSTGRES_USER=service
+      - POSTGRES_PASSWORD=123PassID
     logging:
       options:
         max-size: 10m
         max-file: "3"
+    networks:
+      - data-network
     ports:
-    - '5432:5432'
-    volumes: 
-    - ./db-data/:/var/lib/postgresql/data/
-    # copy the sql script to create tables
-    - ./db/migrations/0_init.up.sql:/docker-entrypoint-initdb.d/0_init.up.sql
+      - '5432:5432'
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+      # copy the sql script to create tables
+      - ./db/migrations/0_init.up.sql:/docker-entrypoint-initdb.d/0_init.up.sql
+
+networks:
+  data-network:
+    driver: bridge

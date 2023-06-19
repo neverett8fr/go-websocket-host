@@ -1,2 +1,1 @@
-DROP EXTENSION pgcrypto;
-DROP TABLE IF EXISTS users();
+DROP TABLE IF EXISTS zoll_data();
