@@ -3,7 +3,7 @@ package service
 import (
 	"fmt"
 	"net/http"
-	application "tempest-user-service/pkg/application/entities"
+	application "salve-data-service/pkg/application/entities"
 
 	"github.com/gorilla/mux"
 )

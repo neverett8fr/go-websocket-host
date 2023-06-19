@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
-	"tempest-user-service/cmd"
-	application "tempest-user-service/pkg/application/service"
-	"tempest-user-service/pkg/config"
+	"salve-data-service/cmd"
+	application "salve-data-service/pkg/application/service"
+	"salve-data-service/pkg/config"
 
 	"github.com/gorilla/mux"
 )
