@@ -7,13 +7,12 @@ import (
 	"salve-data-service/pkg/config"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/websocket"
 )
 
 // Route declaration
-func getRoutes(conn map[*websocket.Conn]bool, upg websocket.Upgrader) *mux.Router {
+func getRoutes() *mux.Router {
 	r := mux.NewRouter()
-	application.NewServiceRoutes(r, conn, upg)
+	application.NewServiceRoutes(r)
 
 	return r
 }
@@ -42,13 +41,7 @@ func main() {
 	}
 	log.Println("DB migrations ran")
 
-	socketConn, socketUpgrader, err := cmd.StartWebsocket()
-	if err != nil {
-		log.Fatalf("error starting websocket server, err %v", err)
-		return
-	}
-
-	router := getRoutes(socketConn, socketUpgrader)
+	router := getRoutes()
 	log.Println("API routes retrieved")
 
 	err = cmd.StartServer(&conf.Service, router)

@@ -31,13 +31,12 @@ func testHandler(w http.ResponseWriter, r *http.Request) {
 func testWebsocket(w http.ResponseWriter, r *http.Request) {
 	ww, ok := w.(*WebSocketResponseWriter)
 	if !ok {
-		log.Println("WebSocket connection not found")
+		log.Println("Websocket connection not found")
 		return
 	}
 
-	conn := ww.conn
 	for {
-		_, message, err := conn.ReadMessage()
+		_, message, err := ww.conn.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Println("WebSocket read error:", err)
@@ -47,7 +46,7 @@ func testWebsocket(w http.ResponseWriter, r *http.Request) {
 
 		log.Println("Received message:", string(message))
 
-		// Additional logic to process the received message
-		// ...
+		// Broadcast the received message to all clients
+		WebsocketServer.broadcastMessage(message)
 	}
 }

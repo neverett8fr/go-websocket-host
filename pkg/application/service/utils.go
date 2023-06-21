@@ -9,20 +9,14 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Sockets struct {
-	Clients  map[*websocket.Conn]bool
-	Upgrader websocket.Upgrader
-}
-
 var (
-	Websockets Sockets
+	WebsocketServer *WebSocketServer
+	Upgrader        websocket.Upgrader
 )
 
-func NewServiceRoutes(r *mux.Router, sockClient map[*websocket.Conn]bool, sockUpgrader websocket.Upgrader) {
+func NewServiceRoutes(r *mux.Router) {
 
-	Websockets.Clients = sockClient
-	Websockets.Upgrader = sockUpgrader
-
+	WebsocketServer = NewWebsocketServer()
 	newUserInformation(r)
 }
 
