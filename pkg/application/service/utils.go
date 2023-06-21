@@ -1,22 +1,28 @@
 package service
 
 import (
+	"database/sql"
 	"encoding/json"
 	"log"
 	"net/http"
+	"salve-data-service/pkg/infra/db"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
 var (
+	DBConn *db.DBConn
+
 	WebsocketServer *WebSocketServer
 	Upgrader        websocket.Upgrader
 )
 
-func NewServiceRoutes(r *mux.Router) {
+func NewServiceRoutes(r *mux.Router, conn *sql.DB) {
 
+	DBConn = db.NewDBConnFromExisting(conn)
 	WebsocketServer = NewWebsocketServer()
+
 	newUserInformation(r)
 }
 

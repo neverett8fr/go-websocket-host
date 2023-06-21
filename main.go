@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"salve-data-service/cmd"
 	application "salve-data-service/pkg/application/service"
@@ -10,9 +11,9 @@ import (
 )
 
 // Route declaration
-func getRoutes() *mux.Router {
+func getRoutes(conn *sql.DB) *mux.Router {
 	r := mux.NewRouter()
-	application.NewServiceRoutes(r)
+	application.NewServiceRoutes(r, conn)
 
 	return r
 }
@@ -41,7 +42,7 @@ func main() {
 	}
 	log.Println("DB migrations ran")
 
-	router := getRoutes()
+	router := getRoutes(serviceDB)
 	log.Println("API routes retrieved")
 
 	err = cmd.StartServer(&conf.Service, router)

@@ -1,13 +1,21 @@
 package db
 
-// INSERT INTO users (email, password) VALUES (
-// 	'johndoe@mail.com',
-// 	crypt('johnspassword', gen_salt('bf'))
-// );
+import "database/sql"
 
-// bf=blowfish
+const (
+	columnName = "name"
+	columnBPM  = "bpm"
+	columnTime = "time"
 
-// SELECT id
-//   FROM users
-//  WHERE email = 'johndoe@mail.com'
-//    AND password = crypt('johnspassword', password);
+	tableData = "zoll_data"
+)
+
+type DBConn struct {
+	Conn *sql.DB
+}
+
+func NewDBConnFromExisting(conn *sql.DB) *DBConn {
+	return &DBConn{
+		Conn: conn,
+	}
+}
